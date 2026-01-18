@@ -1,0 +1,63 @@
+﻿
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="800"
+             x:Class="AvaloniaApplication2.PhoneView"
+             xmlns:asd="clr-namespace:AvaloniaApplication2"
+             Background="#F3F4F6">
+
+    <Grid x:Name="MainGrid" RowDefinitions="Auto, *, Auto">
+        <!-- Header -->
+        <Border Grid.Row="0" Background="White" Padding="20" BoxShadow="0 2 4 0 #10000000">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Magyar Posta" FontSize="20" FontWeight="Bold" Foreground="#2563EB"/>
+                <Menu>
+                    <MenuItem Header="☰">
+                        <MenuItem Header="Mentes" Command="{Binding SaveCommand}"/>
+                        <MenuItem Header="Betoltes" Command="{Binding LoadCommand}"/>
+                    </MenuItem>
+                </Menu>
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" Padding="15">
+            <StackPanel Spacing="20">
+                <!-- Form Card -->
+                <Border Background="White" CornerRadius="12" Padding="20">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="Új rögzítése" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBox Watermark="ID" Text="{Binding IdInput}"/>
+                        <TextBox Watermark="Név" Text="{Binding NameInput}"/>
+                        <CalendarDatePicker HorizontalAlignment="Stretch" SelectedDate="{Binding SentDate}"/>
+                        <TextBox Watermark="Hova" Text="{Binding DestinationInput}"/>
+                        <ComboBox HorizontalAlignment="Stretch" SelectedItem="{Binding StatusInput}">
+                            <x:String>Feldolgozas alatt</x:String>
+                            <x:String>Kiszallitas alatt</x:String>
+                            <x:String>Kiszallitva</x:String>
+                            <x:String>Torolve</x:String>
+                        </ComboBox>
+                        <Button Content="Hozzáadás" 
+                                Command="{Binding AddPackageCommand}" 
+                                HorizontalAlignment="Stretch" 
+                                HorizontalContentAlignment="Center"
+                                Background="#2563EB" Foreground="White" Padding="12"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- List Section -->
+                <StackPanel Spacing="10">
+                    <TextBlock Text="Csomagok" FontWeight="SemiBold"/>
+                    <ItemsControl ItemsSource="{Binding Packages}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <asd:UserControl1 Margin="0,0,0,10"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

@@ -1,0 +1,109 @@
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AvaloniaApplication2.ViewModels"
+             xmlns:asd="clr-namespace:AvaloniaApplication2"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
+
+             x:Class="AvaloniaApplication2.Views.MainView"
+             x:DataType="vm:MainViewModel">
+
+    <DockPanel>
+        <!-- Top Menu Bar -->
+        <Border DockPanel.Dock="Top" Background="White" BorderBrush="#E5E7EB" BorderThickness="0,0,0,1">
+            <Menu Margin="5">
+                <MenuItem Header="Mentes">
+                    <MenuItem Header="Mentes mind" Command="{Binding SaveCommand}"/>
+                    <Separator/>
+                    <MenuItem Header="Feldolgozas alatt" Command="{Binding SaveOnlyOnProcessing}"/>
+                    <MenuItem Header="Kiszallitas alatt" Command="{Binding SaveOnlyOnArrive}"/>
+                    <MenuItem Header="Kiszallitva" Command="{Binding SaveOnlyOnArrived}"/>
+                    <MenuItem Header="Torolve" Command="{Binding SaveOnDeleted}"/>
+                </MenuItem>
+                <MenuItem Header="Betoltes" Command="{Binding LoadCommand}"/>
+            </Menu>
+        </Border>
+
+        <Grid ColumnDefinitions="350, *">
+            <!-- Left Panel: Input Form -->
+            <Border Grid.Column="0" Background="White" BorderBrush="#E5E7EB" BorderThickness="0,0,1,0">
+                <ScrollViewer>
+                    <StackPanel Spacing="15" Margin="20">
+                        <TextBlock Text="Új Csomag" FontSize="20" FontWeight="SemiBold" Foreground="#1F2937"/>
+                        
+                        <StackPanel Spacing="5">
+                            <Label Content="Csomag ID" FontSize="12" Foreground="#6B7280"/>
+                            <TextBox Text="{Binding IdInput}"/>
+                        </StackPanel>
+
+                        <StackPanel Spacing="5">
+                            <Label Content="Csomag Neve" FontSize="12" Foreground="#6B7280"/>
+                            <TextBox Text="{Binding NameInput}"/>
+                        </StackPanel>
+
+                        <StackPanel Spacing="5">
+                            <Label Content="Feladas ideje" FontSize="12" Foreground="#6B7280"/>
+                            <CalendarDatePicker SelectedDate="{Binding SentDate}" HorizontalAlignment="Stretch"/>
+                        </StackPanel>
+
+                        <StackPanel Spacing="5">
+                            <Label Content="Honnan" FontSize="12" Foreground="#6B7280"/>
+                            <TextBox Text="{Binding SentFromInput}"/>
+                        </StackPanel>
+
+                        <StackPanel Spacing="5">
+                            <Label Content="Hova" FontSize="12" Foreground="#6B7280"/>
+                            <TextBox Text="{Binding DestinationInput}"/>
+                        </StackPanel>
+
+                        <StackPanel Spacing="5">
+                            <Label Content="Csomag Állapota" FontSize="12" Foreground="#6B7280"/>
+                            <ComboBox SelectedItem="{Binding StatusInput}" HorizontalAlignment="Stretch">
+                                <x:String>Feldolgozas alatt</x:String>
+                                <x:String>Kiszallitas alatt</x:String>
+                                <x:String>Kiszallitva</x:String>
+                                <x:String>Torolve</x:String>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <Grid ColumnDefinitions="*,*" Margin="0,10,0,0">
+                            <StackPanel Grid.Column="0" Spacing="5" Margin="0,0,5,0">
+                                <Label Content="Ár (Ft)" FontSize="12" Foreground="#6B7280"/>
+                                <TextBox Text="{Binding PriceInput}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Spacing="5" Margin="5,0,0,0">
+                                <Label Content="Napok" FontSize="12" Foreground="#6B7280"/>
+                                <TextBox Text="{Binding DaysToArriveInput}"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Button Command="{Binding AddPackageCommand}" 
+                                Content="Csomag Hozzáadása" 
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                Background="#2563EB"
+                                Foreground="White"
+                                Padding="10"
+                                Margin="0,10,0,0"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <!-- Right Panel: List -->
+            <Grid Grid.Column="1" RowDefinitions="Auto,*">
+                <TextBlock Grid.Row="0" Text="Csomagok Listája" Margin="20,20,20,10" FontSize="18" FontWeight="SemiBold"/>
+                <ScrollViewer Grid.Row="1" Padding="10">
+                    <ItemsControl ItemsSource="{Binding Packages}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <asd:UserControl1 Margin="0,0,0,10"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</UserControl>

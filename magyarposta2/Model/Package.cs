@@ -1,0 +1,54 @@
+﻿using CommunityToolkit.Mvvm.Input;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AvaloniaApplication2.Model
+{
+    public class Package
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public DateOnly SentDate { get; set; }
+        public string SentFrom { get; set; }
+        public string Destination { get; set; }
+        public int Price { get; set; }
+        public int DaysToArrive { get; set; }
+        public RelayCommand MoreCommand { get; set; }
+        public RelayCommand BackCommand { get; set; }
+        public RelayCommand DeleteCommand { get; set; }
+
+        private string _status;
+        public string Status
+        {
+            get => _status;
+            set
+            {
+                _status = value;
+                if (_status == "Torolve" || _status == "Kiszallitva")
+                {
+                    DaysToArrive = 0;
+                }
+            }
+        }
+
+        public Package(int id, string name, DateOnly sentDate, string sentFrom, string destination, string status, int price, int daysToArrive)
+        {
+            Id = id;
+            Name = name;
+            SentDate = sentDate;
+            SentFrom = sentFrom;
+            Destination = destination;
+            Status = status;
+            Price = price;
+            DaysToArrive = daysToArrive;
+        }
+
+        public override string ToString()
+        {
+            return $"{Id};{Name};{SentDate};{SentFrom};{Destination};{Status};{Price};{DaysToArrive}";
+        }
+    }
+}

@@ -1,0 +1,41 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="80"
+             x:Class="AvaloniaApplication2.UserControl1">
+    
+    <Border Background="White" 
+            BorderBrush="#E5E7EB" 
+            BorderThickness="1" 
+            CornerRadius="8" 
+            Padding="15"
+            BoxShadow="0 2 4 0 #10000000">
+        <Grid ColumnDefinitions="Auto, *, Auto, Auto">
+            <!-- ID Badge -->
+            <Border Grid.Column="0" Background="#F3F4F6" CornerRadius="4" Padding="8,4" VerticalAlignment="Center">
+                <TextBlock Text="{Binding Id}" FontWeight="Bold" Foreground="#374151"/>
+            </Border>
+
+            <!-- Name and Status info -->
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="15,0">
+                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="16"/>
+                <TextBlock Text="{Binding Status}" FontSize="12" Foreground="#6B7280"/>
+            </StackPanel>
+
+            <!-- Actions -->
+            <Button Grid.Column="2" 
+                    Content="Részletek" 
+                    Command="{Binding MoreCommand}"
+                    Background="#F3F4F6"
+                    Margin="0,0,10,0"/>
+            
+            <Button Grid.Column="3" 
+                    Content="X" 
+                    Command="{Binding DeleteCommand}"
+                    Background="#FEE2E2"
+                    Foreground="#DC2626"
+                    FontWeight="Bold"/>
+        </Grid>
+    </Border>
+</UserControl>

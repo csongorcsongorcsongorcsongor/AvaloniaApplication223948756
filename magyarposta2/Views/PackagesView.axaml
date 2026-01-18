@@ -1,0 +1,73 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="600"
+             x:Class="AvaloniaApplication2.PackagesView">
+    
+    <Grid Background="#F3F4F6">
+        <Border VerticalAlignment="Center" 
+                HorizontalAlignment="Center" 
+                Width="400" 
+                Background="White" 
+                CornerRadius="12" 
+                Padding="30"
+                BoxShadow="0 10 15 -3 #20000000">
+            <StackPanel Spacing="15">
+                <TextBlock Text="Csomag Részletei" FontSize="22" FontWeight="Bold" Margin="0,0,0,10"/>
+                
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+                    <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,10,10">
+                        <Label Content="ID" FontSize="12" Foreground="#6B7280"/>
+                        <TextBox Text="{Binding Id}" IsReadOnly="True"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,0,0,10">
+                        <Label Content="Név" FontSize="12" Foreground="#6B7280"/>
+                        <TextBox Text="{Binding Name}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,10">
+                        <Label Content="Feladás Dátuma" FontSize="12" Foreground="#6B7280"/>
+                        <TextBox Text="{Binding SentDate}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,10,10">
+                        <Label Content="Honnan" FontSize="12" Foreground="#6B7280"/>
+                        <TextBox Text="{Binding SentFrom}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" Grid.Column="1" Margin="0,0,0,10">
+                        <Label Content="Hova" FontSize="12" Foreground="#6B7280"/>
+                        <TextBox Text="{Binding Destination}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Margin="0,0,0,10">
+                        <Label Content="Állapot" FontSize="12" Foreground="#6B7280"/>
+                        <ComboBox SelectedValue="{Binding Status}" HorizontalAlignment="Stretch">
+                            <x:String>Feldolgozas alatt</x:String>
+                            <x:String>Kiszallitas alatt</x:String>
+                            <x:String>Kiszallitva</x:String>
+                            <x:String>Torolve</x:String>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="4" Grid.Column="0" Margin="0,0,10,20">
+                        <Label Content="Ár (Ft)" FontSize="12" Foreground="#6B7280"/>
+                        <TextBox Text="{Binding Price}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="4" Grid.Column="1" Margin="0,0,0,20">
+                        <Label Content="Szállítás (nap)" FontSize="12" Foreground="#6B7280"/>
+                        <TextBox Text="{Binding DaysToArrive}"/>
+                    </StackPanel>
+                </Grid>
+
+                <Button Content="Vissza a Listához" 
+                        Command="{Binding BackCommand}" 
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        Padding="12"
+                        Background="#374151"
+                        Foreground="White"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

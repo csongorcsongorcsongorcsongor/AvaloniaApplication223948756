@@ -1,0 +1,154 @@
+﻿using System;
+using System.Collections.ObjectModel;
+using AvaloniaApplication2.Model;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+
+namespace AvaloniaApplication2.ViewModels;
+
+public partial class MainViewModel : ViewModelBase
+{
+    private MainModel _model;
+
+    public int IdInput { get; set; }
+    public string NameInput { get; set; }
+    private DateTime _sentDate { get; set; }
+    private DateOnly _sent;
+    public DateOnly Sent
+    {
+        get { return _sent;}
+        set
+        {
+            if (_sent != value)
+            {
+                _sent = value;
+                OnPropertyChanged(nameof(Sent));
+                OnPropertyChanged(nameof(SentDate));
+            }
+        }
+    }
+
+    public DateTime SentDate
+    {
+        get { return _sentDate; }
+        set
+        {
+            if (_sentDate != value)
+            {
+                _sentDate = value;
+                Sent = DateOnly.FromDateTime(_sentDate);
+                OnPropertyChanged(nameof(SentDate));
+            }
+        }
+    }
+
+    public string SentFromInput { get; set; }
+    public string DestinationInput { get; set; }
+    public string StatusInput { get; set; }
+    public int PriceInput { get; set; }
+    public int DaysToArriveInput { get; set; }
+    public RelayCommand AddPackageCommand { get; set; }
+    public RelayCommand LoadCommand { get; set; }
+    public RelayCommand SaveCommand { get; set; }
+    public RelayCommand SaveOnDeleted { get; set; }
+    public RelayCommand SaveOnlyOnArrived { get; set; }
+    public RelayCommand SaveOnlyOnProcessing{ get; set; }
+    public RelayCommand SaveOnlyOnArrive { get; set; }
+    public ObservableCollection<Package> Packages { get; set; }
+
+    public event EventHandler<PackageEventArgs> ChangeView;
+    public event EventHandler GoBack;
+
+    public event EventHandler LoadEvent;
+    public event EventHandler SaveEvent;
+    public event EventHandler SaveOnlyArrived;
+    public event EventHandler SaveOnlyArrive;
+    public event EventHandler SaveOnlyProcessing;
+    public event EventHandler SaveOnlyDeleted;
+
+    public MainViewModel(MainModel model)
+    {
+        _model = model;
+        Packages = new ObservableCollection<Package>();
+        _model.PackageAdded += OnAddPackage;
+        AddPackageCommand = new RelayCommand(AddPackage);
+        LoadCommand = new RelayCommand(() => LoadEvent?.Invoke(this, EventArgs.Empty));
+        SaveCommand = new RelayCommand(() => { SaveEvent?.Invoke(this, EventArgs.Empty); });
+        SaveOnDeleted = new RelayCommand(() => { SaveOnlyDeleted?.Invoke(this, EventArgs.Empty); });
+        SaveOnlyOnArrived = new RelayCommand(() => { SaveOnlyArrived?.Invoke(this, EventArgs.Empty); });
+        SaveOnlyOnProcessing = new RelayCommand(() => { SaveOnlyProcessing?.Invoke(this, EventArgs.Empty); });
+        SaveOnlyOnArrive = new RelayCommand(() => { SaveOnlyArrive?.Invoke(this, EventArgs.Empty); });
+    }
+
+    private void OnAddPackage(object? sender, PackageEventArgs e)
+    {
+        Package package = e.package;
+
+        if (package.Status == "Kiszállítva")
+        {
+            package.DaysToArrive = 0;
+        }
+        if (package.Price <= 0)
+        {
+            return;
+        }
+
+        if (package.Status == "Torolve")
+        {
+            package.DaysToArrive = 0;
+        }
+
+        package.MoreCommand = new RelayCommand(() =>
+        {
+            ChangeView?.Invoke(this, new PackageEventArgs(package));
+        });
+        package.BackCommand = new RelayCommand(() =>
+        {
+            GoBack?.Invoke(this, EventArgs.Empty);
+        });
+
+        package.DeleteCommand = new RelayCommand(() =>
+        {
+            _model.DeletePackage(package);
+            Packages.Remove(package);
+        });
+
+        Packages.Add(package);
+    }
+
+
+    private void AddPackage()
+    {
+        Package package = new Package(IdInput, NameInput, Sent, SentFromInput, DestinationInput, StatusInput, PriceInput, DaysToArriveInput);
+        if (package.Status == "Kiszállítva")
+        {
+            package.DaysToArrive = 0;
+        }
+        if (package.Price <= 0)
+        {
+            return;
+        }
+
+        if (package.Status == "Torolve")
+        {
+            package.DaysToArrive = 0;
+        }
+
+        package.MoreCommand = new RelayCommand(() =>
+        {
+            ChangeView?.Invoke(this, new PackageEventArgs(package));
+        });
+        package.BackCommand = new RelayCommand(() =>
+        {
+            GoBack?.Invoke(this, EventArgs.Empty);
+        });
+
+        package.DeleteCommand = new RelayCommand(() =>
+        {
+            _model.DeletePackage(package);
+            Packages.Remove(package);
+        });
+
+        _model.AddPackage(package);
+    }
+}

@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AvaloniaApplication2.Model;
+
+namespace AvaloniaApplication2.Persistence
+{
+    public interface IDataAccess
+    {
+        Task Save(string path, List<Package> package);
+        Task SaveOnDeleted(string path, List<Package> package);
+        Task SaveOnlyOnArrived(string path, List<Package> package);
+        Task SaveOnlyOnProcessing(string path, List<Package> package);
+        Task SaveOnlyOnArrive(string path, List<Package> package);
+        Task<List<Package>> LoadAll(string path);
+    }
+}
